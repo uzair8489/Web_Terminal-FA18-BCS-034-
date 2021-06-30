@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Signup{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="col-lg-5 mx-auto border rounded pt-4">
+        <h3 class="alert alert-light border rounded">Create New Account</h3>
+        <form action="/signup" method="POST">
+            {% csrf_token %}
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" class="form-control" id="fname" name="fname" value="{{ values.fname }}" aria-describedby="emailHelp" placeholder="First Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" class="form-control" id="lname" name="lname" value="{{ values.lname }}" aria-describedby="emailHelp" placeholder="Last Name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{ values.email }}" aria-describedby="emailHelp" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contact">Phone Number</label>
+              <input type="number" class="form-control" id="contact" name="contact" value="{{ values.contact }}" aria-describedby="emailHelp" placeholder="Example:03012345678" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pass1">Password</label>
+              <input type="password" class="form-control" id="pass1" name="pass1" placeholder="***********" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pass2">Confirm Password</label>
+              <input type="password" class="form-control" id="pass2" name="pass2" placeholder="***********" required>
+            </div>
+
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary" value="Create An Account">
+            </div>
+          </form>
+    </div>
+    
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,1 @@
+web gunicorn sports store.wsgi:application --log-file -

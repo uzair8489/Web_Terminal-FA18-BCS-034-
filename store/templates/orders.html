@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Orders{% endblock %}
+{% load custom_filter %}
+{% load cart %}
+
+{% block content %}
+
+
+  <main>
+      <!-- Hero Area Start-->
+      <div class="slider-area ">
+          <div class="single-slider slider-height2 d-flex align-items-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xl-12">
+                          <div class="hero-cap text-center">
+                              <h2>My Orders</h2>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--================Cart Area =================-->
+      <section class="cart_area section_padding">
+        <div class="container">
+          <div class="cart_inner">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"> SNo.</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for items in orders %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ items.Order_ID }}</td>
+                    <td>
+                      <div class="media">
+                        <div class="d-flex">
+                          <img src="{{ items.Product_Title.Product_Image1.url }}" alt="" />
+                        </div>
+                        <div class="media-body">
+                          <p>{{ items.Product_Title}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                        <h5>{{ items.Date }}</h5>
+                    </td>
+                    <td>
+                      <h5>{{ items.Price|currency }}</h5>
+                    </td>
+                    <td>
+                      <div class="product_count">
+                        <h5>{{ items.Quantity }}</h5>
+                      </div>
+                    </td>
+                    <td>
+                      <h5>{{ items.Quantity|multiply:items.Price|currency }}</h5>
+                    </td>
+                    <td>
+                     {% if items.Delivered %}
+                     <small class="badge badge-success" >Completed</small>
+                     {% else %}
+                     <small class="badge badge-warning" >Pending</small>
+                     {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+                <a target="_blank" href="{% url 'create_invoice' %}" class="btn btn-primary float-left">Print</a>
+            </div>
+          </div>
+
+<!-- {% for items in orders %}
+<h6>{{ items.Product }}</h6>
+{% endfor %} -->
+{% endblock %}

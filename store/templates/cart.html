@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock %}
+{% load custom_filter %}
+{% load cart %}
+
+{% block content %}
+
+
+  <main>
+      <!-- Hero Area Start-->
+      <div class="slider-area ">
+          <div class="single-slider slider-height2 d-flex align-items-center">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xl-12">
+                          <div class="hero-cap text-center">
+                              <h2>Cart List</h2>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--================Cart Area =================-->
+      <section class="cart_area section_padding">
+        <div class="container">
+          <div class="cart_inner">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"> SNo.</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for items in pr %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                      <div class="media">
+                        <div class="d-flex">
+                         <a href="{% url 'p_details' items.Product_ID %}"> <img src="{{ items.Product_Image1.url }}" alt="" />  </a>
+                        </div>
+                        <div class="media-body">
+                          <span><a style="color: black;" class="btn-1" href="{% url 'p_details' items.Product_ID %}">{{ items.Product_Title }}</a></span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <h5>{{ items.Product_Price|currency }}</h5>
+                    </td>
+                    <td>
+                      <div class="product_count d-flex">
+                        <h5>{{ items|cart_quantity:request.session.cart }}</h5>
+                      </div>
+                    </td>
+                    <td>
+                      <h5>{{ items|price_total:request.session.cart|currency }}</h5>
+                    </td>
+                    <td>
+                      <form method="POST">
+                        {% csrf_token %}
+                        <input hidden class="col-lg-8" type="text" value="{{ items.Product_ID }}" class="form-control" id="product" name="product" aria-describedby="emailHelp">
+                        <span><button type="submit" style=" color: red; background: none; border: none; cursor: pointer;"><i class="fas fa-trash"></i></button></span>
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="5">Total</th>
+                    <th>{{ pr|total_cart_price:request.session.cart|currency }}</th>
+                  </tr>
+                </tfoot>
+              </table>
+              <div class="m-3 p-3">
+                <a href="{% url 'shop' %}" class="btn btn-primary float-left">back to shopping</a>
+                <!-- <a href="#" data-toggle = "modal" data-target = "#exampleModal" class="btn btn-primary float-right">Proceed to Checkout</a> -->
+                {% if request.session.cart %}
+                <a href="{% url 'check' %}" class="btn btn-primary float-right">Proceed to Checkout</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+
+          <!-- modal -->
+
+  <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Checkout Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="m-2 p-3">
+          <form action="/checkout" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="">Address</label>
+              <input type="text" class="form-control" id="" name="address" value="" aria-describedby="emailHelp" placeholder="" required>
+            </div>
+
+            <div class="form-group">
+              <label for="">Phone</label>
+              <input type="text" class="form-control" id="" name="phone" placeholder="" required>
+            </div>
+
+            <input type="submit" class="btn btn-secondary float-right" value="Check Out">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+      </section>
+
+      <!--================End Cart Area =================-->
+  </main>
+  
+
+  
+
+
+  {% endblock %}

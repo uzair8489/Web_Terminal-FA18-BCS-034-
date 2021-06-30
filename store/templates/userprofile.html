@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Account{% endblock %}
+{% load custom_filter %}
+{% load cart %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 mt-5">
+            <!-- <a class="list-group-item list-group-item-action active text-light">Categories</a> -->
+            <!-- <a href="{% url 'shop' %}" class="list-group-item list-group-item-action">All</a> -->
+            <a style="background-color:#897ecd ;" class="list-group-item list-group-item-action text-light">Other Details</a>
+            <div class="list-group">
+                <a href="{% url 'shop' %}?category={{ items.id }}" class="list-group-item list-group-item-action">
+                    My Orders
+                </a>
+                <a href="{% url 'cart' %}" class="list-group-item list-group-item-action">
+                    Cart<span style="background-color: #897ecd; color: white;" class="badge badge-pill float-right">{{request.session.cart.keys|length}}</span>
+                </a>
+            </div>
+        </div>
+    
+        <div class="col-lg-9">
+            <form method="POST" enctype="multipart/form-data">
+                <input hidden type="text" value="{{ userid.User_ID }}">
+                {% csrf_token %}
+                <div class="container rounded bg-white mt-5 mb-5" style="border: 1px solid #897ecd;">
+                    <div class="row">
+                        <div class="col-md-5 border-right">
+                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                {% if userid.Image %}
+                                <img style="height: 100px; width: 100px;" class="rounded-circle mt-5"src="{{ userid.Image.url }}">
+                                {% endif %}
+                                <span style="margin-top: 11px;" class="font-weight-bold">{{ userid.First_Name }} {{ userid.Last_Name }}</span><span class="text-black-50">{{ userid.Email }}</span><span></span>
+                                <label class="mt-2 form-label" for="img">Upload Profile Picture</label>
+                                <input class="bg-secondary text-white" type="file" id="img" name="img" accept="image/*">
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-7 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="text-right">Profile Settings</h4>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6"><label class="labels">First Name</label><input type="text" class="form-control" id="fname" name ="fname" value="{{ userid.First_Name }}"></div>
+                                    <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control" id="lname" name ="lname" value="{{ userid.Last_Name }}"></div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" id="email" name ="email" value="{{ userid.Email }}"></div>
+                                    <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" id="contact" name ="contact" value="{{ userid.Contact }}"></div>
+                                    <div class="col-md-12"><label class="labels">Address</label><input type="textarea" class="form-control" id="address" name ="address" value="{{ userid.Address }}"></div>
+                                    <!-- <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" value=""></div> -->
+                                </div>
+                                <!-- <div class="row mt-3">
+                                    <div class="col-md-6"><label class="labels">Country</label><input type="text"
+                                            class="form-control" placeholder="country" value=""></div>
+                                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
+                                            class="form-control" value="" placeholder="state"></div>
+                                </div> -->
+                                <div class="mt-5 text-center"><input class="btn btn-primary profile-button" type="submit" value="Update"></button></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+
+{% endblock %}

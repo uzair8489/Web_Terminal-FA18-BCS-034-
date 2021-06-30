@@ -1,0 +1,437 @@
+{% load static %}
+{% load custom_filter %}
+{% load cart %}
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/userprofile.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/dropdown.css' %}">
+</head>
+
+<body>
+    <!--? Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="{% static 'assets/img/logo/logo.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader Start -->
+    <header>
+        <!-- Header Start -->
+        <div class="header-area">
+            <div class="main-header">
+                <div class="container-fluid">
+                    <div class="menu-wrapper">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="{% url 'index' %}"><img src="{% static 'assets/img/logo/logo.png' %}" alt=""></a>
+                        </div>
+                        <!-- Main-menu -->
+                        <div class="main-menu d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                    <li><a href="{% url 'index' %}">Home</a></li>
+                                    <li><a href="{% url 'shop' %}">shop</a></li>
+                                    <li><a href="{% url 'about' %}">about</a></li>
+                                    <li class="hot"><a href="#">Latest</a>
+                                        <ul class="submenu">
+                                            <li><a href="{% url 'shop' %}"> Product list</a></li>
+                                            <!-- <li><a href="{% url 'product_details' %}"> Product Details</a></li> -->
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="submenu">
+                                            <li><a href="{% url 'cart' %}">Cart</a></li>
+                                            <li><a href="{% url 'elements' %}">Element</a></li>
+                                            <li><a href="{% url 'confirmation' %}">Confirmation</a></li>
+                                            <li><a href="{% url 'checkout' %}">Product Checkout</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                   
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- Header Right -->
+                        <div class="header-right">
+                            
+                            <ul>
+                                <li>
+                                    <div class="nav-search search-switch">
+                                        <!-- <span class="flaticon-search"></span> -->
+                                    </div>
+                                </li>
+                                <!-- <li>
+                                    <a style ="color: black;position: relative;top: 8px;right: 39px;" href="{% url 'cart' %}">Cart &nbsp;<span class="badge badge-info" style=" position: relative; bottom:2px; background: #897ecd;color: white;font-size: 12px;cursor: pointer;padding: 3px 7px;">{{request.session.cart.keys|length}}</span> <span class="sr-only" >(current)</span> </a>
+                                </li> -->
+
+
+                                <div class="dropdown nav-item dropdown">
+                                    
+                                    <a style="color: black;margin-right: 18px" class="nav-link dropdown-toggle" href="{% url 'cart' %}">
+                                        <span class="badge badge-info" style=" border-radius:15px; position: relative; bottom:2px; background: #897ecd;color: white;font-size: 12px;cursor: pointer;padding: 3px 7px;">{{request.session.cart.keys|length}}</span> <span class="sr-only" >(current)</span>
+                                        Cart
+                                    </a>
+                                    <div class="dropdown-content">
+                                        <div>
+                                            <i class="fas fa-shopping-cart"></i>
+                                            <span class="badge badge-info" style=" border-radius:15px; position: relative; bottom:2px; background: black;color: white;font-size: 12px;cursor: pointer;padding: 3px 7px; height: 17px;width: 20px;">{{request.session.cart.keys|length}}</span> <span class="sr-only" >(current)</span>
+                                            <div class="float-right mt-1">
+                                                <h6 style="color: #897ecd ;">Total:{{ pr|total_cart_price:request.session.cart|currency }}</h6>
+                                          </div>
+                                          <hr>
+                                        </div>
+                                      {% for items in pr %}
+                                      
+                                      <div class="d-flex mt-3 mr-3">
+                                       <div class="mr-2">
+                                       <img style="height: 50px; width: 50px;" src="{{ items.Product_Image1.url }}" alt="">
+                                        </div>
+                                        <div style="width: 170px;">
+                                        <a href="{% url 'p_details' items.Product_ID %}"><h6>{{ items.Product_Title }}</h6></a>
+                                        <p style="font-size: 12px; color: #897ecd;">{{ items.Product_Price|currency }} &nbsp; <u>Quantity:{{ items|cart_quantity:request.session.cart }}</u> </p>
+                                        
+                                        </div>
+                                        <!-- <div class="ml-5 mt-2">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input hidden class="col-lg-8" type="text" value="{{ items.Product_ID }}" class="form-control" id="product" name="product" aria-describedby="emailHelp">
+                                                <span><button type="submit" style=" color: red; background: none; border: none; cursor: pointer;"><i class="fas fa-trash"></i></button></span>
+                                              </form>
+                                        </div> -->
+
+                                        
+                                      </div>
+                                      {% endfor %}
+                                      <hr>
+                                      <!-- <div class="dropdown-divider"></div> -->
+                                      <div style="text-align: center;">
+                                        <a style="margin-top: -10px;padding: 20px;color: white;" href="{% url 'check' %}" class="btn">checkout</a>
+                                        <br>
+                                        <a style="margin-top: -22px;padding: 20px;color: white;" href="{% url 'cart' %}" class="btn">Go To Cart</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                {% if request.session.user %}
+                                <!-- <li><a href="/logout"><span>Logout</span></a> </li> -->
+                                <!-- Example single danger button -->
+                                <ul class="navbar-nav" style="margin-right: 82px;">
+                                    <li class="nav-item dropdown">
+                                        <a style="color: #141517" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          {{ request.session.fname }}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="/orders">My Orders</a>
+                                            <a class="dropdown-item" href="{% url 'userprofile' request.session.user %}">My Profile</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                      </li>
+                                    {% else %}
+                                    <li class="mt-2"><a href="{% url 'login' %}"><span>login</span></a> </li>
+                                    <li class="mt-2"><a href="{% url 'signup' %}"><span>Signup</span></a> </li>
+                                    {% endif %}
+                                </ul>
+                                
+                                
+
+                                <!-- {% if user.is_authenticated %}
+                                <ul class="navbar-nav ml-auto mr-5">
+                                    <li class="nav-item dropdown">
+                                        <a style="color: #897ecd;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Welcome {{ request.user }}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                      </li>
+                                </ul>
+                                {% else %} -->
+                                <!-- Button trigger login modal -->
+                                <!-- <button style="height: 39px; width: 75px; border-radius: 5px; background-color: #897ecd; border: none;" type="button" class=" btn-primary mr-2" data-toggle="modal" data-target="#loginModal"> Login </button> -->
+                                <!-- Button trigger SignUp modal -->
+                                <!-- <button style="height: 39px; width: 75px;  border-radius: 5px; background-color: #897ecd; border: none;" type="button" class="btn-primary mr-2" data-toggle="modal" data-target="#signupModal"><a href="{% url 'signup' %}">SignUp</a></button> -->
+                                <!-- {% endif %} -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Mobile Menu -->
+                    <!-- <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+        
+    </header>
+
+
+
+    <!-- SignUp Modal -->
+    <!-- <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signupModalTitle">SignUp Here</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/signup" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" class="form-control" id="username" name = "username" placeholder="Choose A Unique Username (Lowercase & alphanumeric)" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="fname">First Name</label>
+                  <input type="text" class="form-control" id="fname" name = "fname" placeholder="First Name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="lname">Last Name</label>
+                  <input type="text" class="form-control" id="lname" name = "lname" placeholder="Last Name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input type="email" class="form-control" id="email" name = "email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pass1">Choose A Password</label>
+                    <input type="password" class="form-control" id="pass1" name = "pass1" placeholder="Choose Your Password" required>
+                  </div>
+
+                <div class="form-group">
+                  <label for="pass2">Confirm Password</label>
+                  <input type="password" class="form-control" id="pass2" name = "pass2" placeholder="Enter Your Password Again" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+    <!-- login Modal -->
+    <!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalTitle">Login</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="loginusername">Username</label>
+                  <input type="text" class="form-control" id="loginusername" name = "loginusername" placeholder="Enter Your Username" required>
+                </div> 
+
+                <div class="form-group">
+                    <label for="loginpass">Password</label>
+                    <input type="password" class="form-control" id="loginpass" name = "loginpass" placeholder="Enter Your Password" required>
+                  </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+
+
+
+    <footer>
+        <!-- Footer Start-->
+        <div class="footer-area footer-padding">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <!-- logo -->
+                                <div class="footer-logo">
+                                    <a href="{% url 'index' %}"><img
+                                            src="{% static 'assets/img/logo/logo2_footer.png' %}" alt=""></a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p>Asorem ipsum adipolor sdit amet, consectetur adipisicing elitcf sed do
+                                            eiusmod tem.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Quick Links</h4>
+                                <ul>
+                                    <li><a href="{% url 'index' %}">Home</a></li>
+                                    <li><a href="{% url 'shop' %}"> Shop</a></li>
+                                    <li><a href="{% url 'about' %}">About</a></li>
+                                    <li><a href="{% url 'contact' %}"> Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>New Products</h4>
+                                <ul>
+                                    <li><a href="#">Woman Cloth</a></li>
+                                    <li><a href="#">Fashion Accessories</a></li>
+                                    <li><a href="#"> Man Accessories</a></li>
+                                    <li><a href="#"> Rubber made Toys</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+                    {% for wi in wi %}
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-7">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>Contact</h4>
+                                <ul>
+                                    <li>Phone: <br><a href="tel:{{ wi.Contact }}">{{ wi.Contact }}</a></li>
+                                    <li>Email: <br><a href="mailto:tel:{{ wi.Email }}">{{ wi.Email }}</a></li>
+                                    <li>Address: <br><a href="http://maps.google.com/?q={{ wi.Address }}">{{ wi.Address }}</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Footer bottom -->
+                <div class="row align-items-center">
+                    <div class="col-xl-7 col-lg-8 col-md-7">
+                        <!-- <div class="footer-copy-right"> -->
+                        <!-- <p>Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> -->
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.</p>                   -->
+                        <!-- </div> -->
+                    </div>
+                    <div class="col-xl-5 col-lg-4 col-md-5">
+                        <div class="footer-copy-right f-right">
+                            <!-- social -->
+                            <div class="footer-social">
+                                {% for items in wi %}
+                                <a href="{{ items.Facebook }}"><i class="fab fa-facebook-f"></i></a>
+                                <a href="{{ items.Instagram }}"><i class="fab fa-instagram"></i></a>
+                                <a href="{{ items.Twitter }}"><i class="fab fa-twitter"></i></a>
+                                {% endfor %}
+                                <!-- <a href="#"><i class="fas fa-globe"></i></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+        
+
+
+    </footer>
+    <!--? Search model Begin -->
+    <!-- <div class="search-model-box">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-btn">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Searching key.....">
+            </form>
+        </div>
+    </div> -->
+    <!-- Search model end -->
+
+    <!-- JS here -->
+
+    <script src="{% static './assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="{% static './assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static './assets/js/popper.min.js' %}"></script>
+    <script src="{% static './assets/js/bootstrap.min.js' %}"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="{% static './assets/js/jquery.slicknav.min.js' %}"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="{% static './assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static './assets/js/slick.min.js' %}"></script>
+
+    <!-- One Page, Animated-HeadLin -->
+    <script src="{% static './assets/js/wow.min.js' %}"></script>
+    <script src="{% static './assets/js/animated.headline.js' %}"></script>
+    <script src="{% static './assets/js/jquery.magnific-popup.js' %}"></script>
+
+    <!-- Scrollup, nice-select, sticky -->
+    <script src="{% static './assets/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static './assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static './assets/js/jquery.sticky.js' %}"></script>
+
+    <!-- contact js -->
+    <script src="{% static './assets/js/contact.js' %}"></script>
+    <script src="{% static './assets/js/jquery.form.js' %}"></script>
+    <script src="{% static './assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static './assets/js/mail-script.js' %}"></script>
+    <script src="{% static './assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="{% static './assets/js/plugins.js' %}"></script>
+    <script src="{% static './assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
