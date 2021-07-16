@@ -7,7 +7,7 @@
 {% block content %}
     <main>
         <!-- Hero Area Start-->
-        <div class="slider-area ">
+        <!-- <div class="slider-area ">
             <div class="single-slider slider-height2 d-flex align-items-center">
                 <div class="container">
                     <div class="row">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Hero Area End-->
         <!-- Latest Products Start -->
         <section class="popular-items latest-padding">
@@ -37,7 +37,7 @@
                         <!--End Nav Button  -->
                     </div>
                     <!-- Grid and List view -->
-                    <div class="grid-list-view">
+                    <div class="grid-list-view"></div>
                     </div>
                     <!-- Select items -->
                     <!-- <div class="select-this">
@@ -67,17 +67,6 @@
                                 </a>
                             </div>
                             {% endfor %}
-                            <!-- <div class="mt-4">
-                                <a style="background-color:#897ecd ;" class="list-group-item list-group-item-action text-light">Price Range</a>
-                            <a href="{% url 'shop' %}" class="list-group-item list-group-item-action">All</a>
-                            {% for items in pc %}
-                            <div class="list-group">
-                                <a href="{% url 'shop' %}?category={{ items.id }}" class="list-group-item list-group-item-action">
-                                    {{ items.Category_Name }}
-                                </a>
-                            </div>
-                            {% endfor %}
-                            </div> -->
                             
                         </div>
                         <!-- All Products -->
@@ -108,7 +97,7 @@
                                     </div>
                                     <div class="popular-caption">
                                         <h3><a href="">{{ items.Product_Title }}</a></h3>
-                                        <span>Rs. {{ items.Product_Price }}</span>
+                                        <span>${{ items.Product_Price }}</span>
                                     </div>
                                 </div>
                             </div>

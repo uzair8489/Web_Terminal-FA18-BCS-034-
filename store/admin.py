@@ -26,6 +26,9 @@ class pictursgallery_data(admin.ModelAdmin):
 class orders_data(admin.ModelAdmin):
     list_display = ['Order_ID','Customer','Product','Quantity','Price','Date', 'Delivered']
 
+class contactus_data(admin.ModelAdmin):
+    list_display = ['Name','Email', 'Message', 'Date']
+
 admin.site.register(Product_Category,productcategory_data)
 admin.site.register(Product_Selling_Category,productsellingcategory_data)
 admin.site.register(Product_Details, productdetails_data)
@@ -33,6 +36,7 @@ admin.site.register(Website_Info, website_information_Data)
 admin.site.register(User_Details, user_details_data)
 admin.site.register(About_Us, aboutus_data)
 admin.site.register(Pictures_Gallery, pictursgallery_data)
+admin.site.register(Contact_Us, contactus_data)
 # admin.site.register(Orders)
 # # admin.site.register(orderl)
 admin.site.register(Order_Request)

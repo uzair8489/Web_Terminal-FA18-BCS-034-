@@ -1,3 +1,5 @@
+from django.views.generic.base import TemplateResponseMixin
+from store.templatetags.cart import price_total
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -5,10 +7,16 @@ from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from store.auth import auth_middleware
 from django.template.loader import get_template
+from django.template.loader import render_to_string
 from xhtml2pdf import pisa
 from .forms import *
 from .models import *
+from django.conf import settings
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from django.template import Context, Template, RequestContext, context
+from io import BytesIO
 # Create your views here.
 
 def insert(request):
@@ -192,7 +200,10 @@ def checkout(request):
         cart = request.session.get('cart')
         ids = list(request.session.get('cart').keys())
         products = Product_Details.objects.filter(Product_ID__in = ids)
-        # print(ids)
+        amount = 0
+        tempamount = 0
+        total = 0
+        # print(products)
         for items in products:
             Order_Request.objects.create(Order_ID = max_val,
             Product_Title = items, 
@@ -207,8 +218,34 @@ def checkout(request):
             Province = province,
             District = distt,
             Zip_Code = zip_code)
+            tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+            amount += tempamount
+            quantity = cart.get(str(items.Product_ID))
+        total = amount
+        # context = {'pr':products, 'total': total}
+        # msg_plain = render_to_string('email.txt')
+        # msg_html = render_to_string('email.html',context)
+        # recipient = (request.session.get('email'))
+        # send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
+        #             [recipient], html_message = msg_html)
 
 
+            
+            # context = {
+            #     'pr':products,
+            # }
+            # message = get_template('email.html', context, context_instance=RequestContext(request))
+            # recipient = (request.session.get('email'))
+            # msg = EmailMessage(
+            #     'Subject',
+            #     message,
+            #     settings.EMAIL_HOST_USER,
+            #     ['uzair8489@gmail.com'],
+            #     )
+            # msg.content_subtype = "html"  # Main content is now text/html
+            # msg.send()
+
+            # request.session['cart'] = {}
         # return redirect('shop')
         # customer = request.session.get('user')
         # fname = request.POST.get('fname')
@@ -242,7 +279,7 @@ def checkout(request):
         #     )
         #     # print(order)
         #     order.save()
-        #     request.session['cart'] = {}
+            # request.session['cart'] = {}
     # message = 'Product: '+str(products) + 'Price:'+ str(products.Product_Price)
     # subject = 'Code Band'
     # message = str(products)
@@ -267,8 +304,35 @@ def contact(request):
     ids = list(request.session.get('cart').keys())  
     products = Product_Details.objects.filter(Product_ID__in = ids)
     web_info = Website_Info.objects.all()
+    # contact = Contact_Us.objects.all()
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        contact = Contact_Us(Name = name, Email = email, Message = message)
+        contact.save()
+        msg_plain = render_to_string('email.txt')
+        msg_html = render_to_string('thankyou.html')
+        recipient = request.POST.get('email')
+        send_mail("Thank you for contacting us", msg_plain, settings.EMAIL_HOST_USER,
+                    [recipient], html_message = msg_html)
+
+        subject = 'Message Received from ' + email 
+        message = request.POST.get('message')
+        sender = settings.EMAIL_HOST_USER
+        recipient = (settings.EMAIL_HOST_USER)
+
+        send_mail(
+            subject,
+            message,
+            sender,
+            [recipient]
+        )
+    pname = request.POST.get('name')
     wi = {'wi': web_info,
-          'pr': products
+          'pr': products,
+          'pname': pname,
     }
     return render(request, 'contact.html', wi )
 
@@ -461,6 +525,7 @@ def login(request):
                 userid = User_Details.objects.get(Email = email)
                 request.session['user'] = userid.User_ID
                 request.session['fname'] = userid.First_Name
+                request.session['lname'] = userid.Last_Name
                 request.session['email'] = userid.Email
 
                 # data = {
@@ -493,39 +558,69 @@ def logout(request):
     return redirect('login')
 
 def pdfinvoice(request):
+    amount = 0
+    tempamount = 0
+    total = 0
+    qty = 0
+    cart = request.session.get('cart')
+    wi = Website_Info.objects.all()
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
+    for items in products:
+        tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+        amount += tempamount
+    total = amount
     if request.method == 'GET':
         user = request.session.get('user')
-        # print(user)
         orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
         # orders = orders.reverse()
         # print(orders)
         context = {
-            'orders': orders
+            'orders': orders,
+            'total': total,
         }
     return render(request, 'invoicePdfReport.html', context)
 
 def create_invoice(request):
+    wi = Website_Info.objects.all()
+    amount = 0
+    tempamount = 0
+    total = 0
+    qty = 0
+    cart = request.session.get('cart')
+    wi = Website_Info.objects.all()
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
+    for items in products:
+        tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+        amount += tempamount
+    total = amount
     if request.method == 'GET':
         user = request.session.get('user')
         # print(user)
-        orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
+        # orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
         # orders = orders.reverse()
         # print(orders)
-        template_path = "invoicePdfReport.html"
-        context = {
-            'orders': orders
-        }
-        response = HttpResponse(content_type = 'application/pdf')
-        response['Content-Dispositon'] = 'filename = "OrderInvoice.pdf"'
-        template = get_template(template_path)
-        html = template.render(context)
+        data = {'pr': products, 'wi':wi, 'total': total}
+        template = get_template("invoice.html")
+        data_p = template.render(data)
+        response = BytesIO()
+        pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")),response)
+        if not pdfPage.err:
+            return HttpResponse(response.getvalue(), content_type = "application/pdf")
+        else:
+            return HttpResponse("Error")
+        # response = HttpResponse(content_type = 'application/pdf')
+        # response['Content-Dispositon'] = 'filename = "OrderInvoice.pdf"'
+        # template = get_template(template_path)
+        # html = template.render(context)
 
-        #create a pdf
-        pisa_status = pisa.CreatePDF(html, dest =response)
-        # if error then show this
-        if pisa_status.err:
-            return HttpResponse('We had error <pre>' + html + '</pre>')
-        return response
+        # #create a pdf
+        # pisa_status = pisa.CreatePDF(html, dest =response)
+        # # if error then show this
+        # if pisa_status.err:
+        #     return HttpResponse('We had error <pre>' + html + '</pre>')
+        # return response
 
 def userprofile(request, pk):
     # pk = request.session.get('user')
@@ -559,3 +654,96 @@ def check(request):
         'pr':products,
     }
     return render(request, 'checkout.html', context)
+
+def ordemail(request):
+    amount = 0
+    tempamount = 0
+    total = 0
+    cart = request.session.get('cart')
+    wi = Website_Info.objects.all()
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
+    for items in products:
+        tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+        amount += tempamount
+    total = amount
+    context = {
+        'pr':products,
+        'total': total,
+    }
+    return render(request, 'email.html', context)
+
+def invoice(request):
+    amount = 0
+    tempamount = 0
+    total = 0
+    quantity = 0
+    cart = request.session.get('cart')
+    wi = Website_Info.objects.all()
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
+    for items in products:
+        tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+        amount += tempamount
+        quantity = cart.get(str(items.Product_ID))
+    total = amount
+    print(request.session['cart'])
+    if request.method == 'GET':
+        user = request.session.get('user')
+        # print(user)
+        orders = Order_Request.objects.filter(Customer= user).order_by('-Date')
+        total = amount
+        # orders = orders.reverse()
+        # print(orders)
+        context = {
+            'total': total,
+            'orders': orders,
+            'pr': products,
+            'wi':wi,
+        }
+    return render(request, 'invoice.html',context)
+
+def change_password(request, pk):
+    userid = User_Details.objects.get(User_ID = pk)
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
+    if request.method == 'GET':
+        return render(request, 'change_password.html',{'userid' : userid})
+    if request.method == 'POST':
+        postData = request.POST
+        currentpass = postData.get('currentpass')
+        pass1 = postData.get('pass1')
+        pass2 = postData.get('pass2')
+        userid.Password = postData.get('pass1')
+
+        value = {
+            'userid' : userid,
+            'currentpass' : currentpass,
+            'pass1' : pass1,
+            'pass2' : pass1,
+        }
+
+
+        error_message = None
+        # uspass = User_Details.objects.get(Password = currentpass)
+        # # print(uspass.Password)
+        
+        # if uspass.Password == currentpass:
+        if pass1 != pass2:
+            error_message = 'New password does not match'
+        if not error_message:
+            userid.save()
+            return redirect('userprofile', pk)
+        else:
+            data = {
+                'error': error_message,
+                'values': value,
+                }    
+        return render(request, 'change_password.html', data)
+
+def contact_us(request):
+    wi = Website_Info.objects.all()
+    context = {
+        'wi': wi,
+    }
+    return render(request, 'thankyou.html', context)
