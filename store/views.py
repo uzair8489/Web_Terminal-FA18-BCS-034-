@@ -491,6 +491,9 @@ def signup(request):
         if len(contact) < 11:
             error_message = 'Phone number should be 11 digits long'
         
+        if len(contact)> 11:
+            error_message = 'Phone number must not be greater than 11 digits'
+
         if signup.isexist():
             error_message = 'Email Address Already Exists'
 
