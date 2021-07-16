@@ -48,7 +48,7 @@ class User_Details(models.Model):
     Last_Name = models.CharField(max_length=50)
     Image = models.ImageField(upload_to = "userimages", default="default.png", null =True, blank = True)
     Email = models.EmailField(max_length=100)
-    Contact = models.IntegerField()
+    Contact = models.CharField(max_length=11)
     Address = models.TextField()
     Password = models.CharField(max_length=30)
 

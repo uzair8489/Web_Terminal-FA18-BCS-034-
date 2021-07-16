@@ -217,7 +217,8 @@ def checkout(request):
             City = city,
             Province = province,
             District = distt,
-            Zip_Code = zip_code)
+            Zip_Code = zip_code,
+            )
             tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
             amount += tempamount
             quantity = cart.get(str(items.Product_ID))
@@ -279,7 +280,7 @@ def checkout(request):
         #     )
         #     # print(order)
         #     order.save()
-            # request.session['cart'] = {}
+        request.session['cart'] = {}
     # message = 'Product: '+str(products) + 'Price:'+ str(products.Product_Price)
     # subject = 'Code Band'
     # message = str(products)

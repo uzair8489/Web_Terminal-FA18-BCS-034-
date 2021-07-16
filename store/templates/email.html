@@ -84,7 +84,7 @@
     </div></td>
     </tr>
     <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">Hi {{ request.session.fname}}, we've received order № A12094653 and are working on it now.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">You'll receive your order in 2 working days. Thanks</p></td>
+    <td align="center" style="padding:0;Margin:0;padding-left:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">Hi {{ request.session.fname}}, we've received your order and are working on it now.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">You'll receive your order in 2 working days. Thanks</p></td>
     </tr>
     <tr style="border-collapse:collapse">
     <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:15px;padding-bottom:15px"><span class="es-button-border" style="border-style:solid;border-color:#2cb543;background:#191919;border-width:0px;display:inline-block;border-radius:20px;width:auto"><a href="{% url 'orders' %}" class="es-button es-button-1625171998693" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#ffffff;font-size:18px;border-style:solid;border-color:#191919;border-width:10px 35px;display:inline-block;background:#191919;border-radius:20px;font-family:'lucida sans unicode', 'lucida grande', sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View your order details </a></span></td>
@@ -170,7 +170,7 @@
     <table class="cke_show_border" height="101" cellspacing="1" cellpadding="1" border="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:240px">
         <tr style="border-collapse:collapse">
             <td style="padding:0;Margin:0"><strong>Subtotal:</strong></td>
-            <td style="padding:0;Margin:0;text-align:right">{{ total }}</td>
+            <td style="padding:0;Margin:0;text-align:right">${{ total }}</td>
     </tr>
     <!-- <tr style="border-collapse:collapse">
     <td style="padding:0;Margin:0"><strong>Shipping:</strong></td>
@@ -182,7 +182,7 @@
     </tr> -->
     <tr style="border-collapse:collapse">
         <td style="padding:0;Margin:0"><span style="font-size:18px;line-height:36px"><strong>Order Total:</strong></span></td>
-        <td style="padding:0;Margin:0;text-align:right"><span style="font-size:18px;line-height:36px"><strong>{{ total }}</strong></span></td>
+        <td style="padding:0;Margin:0;text-align:right"><span style="font-size:18px;line-height:36px"><strong>${{ total }}</strong></span></td>
     </tr>
     </table></td>
     </tr>
@@ -258,7 +258,7 @@
     <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:20px;color:#888888;font-size:13px"><strong><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:20px" href="https://viewstripo.email">Browse all products</a>&nbsp;</strong>•<strong><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:20px" href="https://viewstripo.email">Locate store</a></strong></p></td>
     </tr>
     <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0;padding-top:20px;padding-bottom:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px">Electro, Inc.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px">62 N. Gilbert, CA 99999</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:16px" href="tel:123456789">123456789</a></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px"><a target="_blank" href="mailto:your@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:16px">your@mail.com</a></p></td>
+    <!-- <td align="center" style="padding:0;Margin:0;padding-top:20px;padding-bottom:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px">Electro, Inc.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px">62 N. Gilbert, CA 99999</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:16px" href="tel:123456789">123456789</a></p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:16px;color:#888888;font-size:13px"><a target="_blank" href="mailto:your@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#AAAAAA;font-size:13px;line-height:16px">your@mail.com</a></p></td> -->
     </tr>
     </table></td>
     </tr>
@@ -278,7 +278,7 @@
     <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
     <tr style="border-collapse:collapse">
-    <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:120%;font-size:0;color:#A0A7AC"><a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=gadgets&utm_content=trigger_newsletter" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#A0A7AC;font-size:12px"><img src="https://pugfmb.stripocdn.email/content/guids/CABINET_9df86e5b6c53dd0319931e2447ed854b/images/64951510234941531.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td>
+    <!-- <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:120%;font-size:0;color:#A0A7AC"><a target="_blank" href="https://viewstripo.email/?utm_source=templates&utm_medium=email&utm_campaign=gadgets&utm_content=trigger_newsletter" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#A0A7AC;font-size:12px"><img src="https://pugfmb.stripocdn.email/content/guids/CABINET_9df86e5b6c53dd0319931e2447ed854b/images/64951510234941531.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> -->
     </tr>
     </table></td>
     </tr>

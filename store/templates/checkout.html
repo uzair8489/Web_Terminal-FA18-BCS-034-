@@ -11,9 +11,10 @@
 <center>
     <h2>Thanks</h2>
     <p>Your order has been placed</p>
-    <a target="_blank" href="{% url 'create_invoice' %}" class="btn btn-primary float-left">View Invoice</a>
+    <button style="background: none; border: none;"><a target="_blank" href="{% url 'create_invoice' %}" class="btn btn-primary float-left">View Invoice</a></button>
 </center>
 {% else %}
+
 
 <main>
   <!-- Hero Area Start-->
@@ -61,7 +62,8 @@
           </div>
       </div>
       <div class="col-8">
-          <h4>Billing Address</h4>
+          <h4>Shipping Details</h4>
+          <h6 style="color: red;">Please enter the correct details to avoid interuptions in delivery process.</h6>
           <form action="/checkout" method="POST">
             {% csrf_token %}
               <div class="row">
@@ -146,42 +148,69 @@
             
 
               <hr>
-              {% if pr %}
-              <div id="paypal-button-container">
-                <!-- Include the PayPal JavaScript SDK -->
-           <script src="https://www.paypal.com/sdk/js?client-id=AcuD-w7xKHStJKuRVq3Vpgbq1UYY55eCvrlWLZNRrW383GcevxkscE6y7L7kof_vC12RbV2QQbHMzetY&currency=USD"></script>
-        
-           <script>
-               var total = '{{ pr|total_cart_price:request.session.cart }}'
-               // Render the PayPal button into #paypal-button-container
-               paypal.Buttons({
-        
-                   // Set up the transaction
-                   createOrder: function(data, actions) {
-                       return actions.order.create({
-                           purchase_units: [{
-                               amount: {
-                                   value: total
-                               }
-                           }]
-                       });
-                   },
-        
-                   // Finalize the transaction
-                   onApprove: function(data, actions) {
-                       return actions.order.capture().then(function(details) {
-                           // Show a success message to the buyer
-                           alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                       });
-                   }
-        
-        
-               }).render('#paypal-button-container');
-           </script>
-        
-           </div>
-              <input class="btn btn-primary profile-button" type="submit" value="Checkout">
-              {% endif %}
+              <script type="text/javascript">
+                function ShowHideDiv() {
+                    var chkYes = document.getElementById("chkYes");
+                    var dvPassport = document.getElementById("dvPassport");
+                    dvPassport.style.display = chkYes.checked ? "block" : "none";
+                }
+            </script>
+            <!-- <span>Payment Method?</span> -->
+            <label for="chkYes">
+                <input type="radio" id="chkYes" name="chkPassPort" onclick="ShowHideDiv()" />
+                PayPal
+            </label>
+            <br>
+            <label for="chkNo">
+                <input type="radio" id="chkNo" name="chkPassPort" onclick="ShowHideDiv()" / checked="checked">
+                Cash On Delivery
+            </label>
+            <hr />
+            <div id="dvPassport" style="display: none">
+                <!-- <div>
+                    <button>Hello</button>
+                </div> -->
+                <div id="paypal-button-container">
+                    <!-- Include the PayPal JavaScript SDK -->
+               <script src="https://www.paypal.com/sdk/js?client-id=AcuD-w7xKHStJKuRVq3Vpgbq1UYY55eCvrlWLZNRrW383GcevxkscE6y7L7kof_vC12RbV2QQbHMzetY&currency=USD"></script>
+            
+               <script>
+                   var total = '{{ pr|total_cart_price:request.session.cart }}'
+                   // Render the PayPal button into #paypal-button-container
+                   paypal.Buttons({
+            
+                       // Set up the transaction
+                       createOrder: function(data, actions) {
+                           return actions.order.create({
+                               purchase_units: [{
+                                   amount: {
+                                       value: total
+                                   }
+                               }]
+                           });
+                       },
+            
+                       // Finalize the transaction
+                       onApprove: function(data, actions) {
+                           return actions.order.capture().then(function(details) {
+                               // Show a success message to the buyer
+                               alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                           });
+                       }
+            
+            
+                   }).render('#paypal-button-container');
+               </script>
+            
+            </div>
+                <!-- Passport Number: -->
+                <!-- <input type="text" id="txtPassportNumber" /> -->
+            </div>
+            
+        {% if pr %}
+         <br><br>
+            <input class="btn btn-primary profile-button" type="submit" value="Checkout">
+            {% endif %}
           </form>
       </div>
   </div>
