@@ -67,16 +67,6 @@
                                 </a>
                             </div>
                             {% endfor %}
-                            <div class="mt-4">
-                                <a style="background-color:#897ecd ;" class="list-group-item list-group-item-action text-light">Price Range</a>
-                            <a href="{% url 'shop' %}" class="list-group-item list-group-item-action">All</a>
-                            {% for items in pc %}
-                            <div class="list-group">
-                                <a href="{% url 'shop' %}?category={{ items.id }}" class="list-group-item list-group-item-action">
-                                    {{ items.Category_Name }}
-                                </a>
-                            </div>
-                            {% endfor %}
                             </div>
                             
                         </div>
