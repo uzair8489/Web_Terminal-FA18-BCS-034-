@@ -18,6 +18,12 @@
                 <a href="{% url 'cart' %}" class="list-group-item list-group-item-action">
                     Cart<span style="background-color: #897ecd; color: white;" class="badge badge-pill float-right">{{request.session.cart.keys|length}}</span>
                 </a>
+                <a href="{% url 'change_password' request.session.user %}" class="list-group-item list-group-item-action">
+                    Change Password
+                </a>
+                <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">
+                    Logout
+                </a>
             </div>
         </div>
     
@@ -59,7 +65,7 @@
                                     <div class="col-md-6"><label class="labels">State/Region</label><input type="text"
                                             class="form-control" value="" placeholder="state"></div>
                                 </div> -->
-                                <div class="mt-5 text-center"><input class="btn btn-primary profile-button" type="submit" value="Update"></button></div>
+                                <div class="mt-5 text-center"><input class="btn btn-primary profile-button" type="submit" value="Update"></div>
                             </div>
                         </div>
                         

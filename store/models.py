@@ -31,9 +31,12 @@ class Product_Details(models.Model):
         return self.Product_Title
 
 class Website_Info(models.Model):
+    Store_Name = models.CharField(max_length=255)
     Email = models.CharField(max_length=50)
     Contact = models.CharField(max_length=30)
     Address = models.CharField(max_length=50)
+    City = models.CharField(max_length=50)
+    Zip_Code = models.CharField(max_length=50)
     Store_Timings = models.CharField(max_length=100)
     Facebook = models.CharField(max_length=50)
     Instagram = models.CharField(max_length=50)
@@ -59,6 +62,12 @@ class User_Details(models.Model):
 
         return False
 
+    def ispass(self):
+        if User_Details.objects.filter(Password = self.Password):
+            return True
+
+        return False
+
 
 class About_Us(models.Model):
     About_Section_Title = models.CharField(max_length=100)
@@ -72,6 +81,7 @@ class Pictures_Gallery(models.Model):
 class Orders(models.Model):
     Order_ID = models.AutoField(primary_key = True)
     Delivered = models.BooleanField(default = False)
+    Paid = models.BooleanField(default = True)
 
     def __str__(self):
         return str(self.Order_ID)
@@ -98,3 +108,8 @@ class Order_Request(models.Model):
         return str(self.Order_ID)
         
 
+class Contact_Us(models.Model):
+    Name = models.CharField(max_length=255)
+    Email = models.CharField(max_length=255)
+    Message = models.TextField()
+    Date = models.DateTimeField(auto_now_add=True)
