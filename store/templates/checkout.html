@@ -7,13 +7,7 @@
 {% block content %}
 
 
-{% if not request.session.cart %}
-<center>
-    <h2>Thanks</h2>
-    <p>Your order has been placed</p>
-    <button style="background: none; border: none;"><a target="_blank" href="{% url 'create_invoice' %}" class="btn btn-primary float-left">View Invoice</a></button>
-</center>
-{% else %}
+
 
 
 <main>
@@ -215,7 +209,7 @@
       </div>
   </div>
 </div>
-{% endif %}
+
 
         
   

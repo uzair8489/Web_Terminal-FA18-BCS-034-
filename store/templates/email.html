@@ -108,7 +108,6 @@
     </tr>
 
     <div>
-        {% for items in pr %}
     <tr style="border-collapse:collapse">
     <td style="padding-bottom:5px;padding-left:20px;padding-right:20px;padding-top:25px;background-color:#f8f8f8" bgcolor="#f8f8f8" align="left">
     <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]-->
@@ -117,86 +116,52 @@
     <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:270px">
     <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
     <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="{% url 'p_details' items.Product_ID %}" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#3CA7F1;font-size:14px"><img class="adapt-img" src="{{ items.Product_Image1.url }}" alt width="103" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td>
+    
     </tr>
     
     </table></td>
     </tr> -->
-
-    <tr style="border-collapse:collapse">
-        <td align="left" style=" padding:0;Margin:0;width:270px">
-        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-        <tr style="border-collapse:collapse">
-        <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><span style="font-size:16px"><strong style="line-height:150%"> {{ forloop.counter }}. &nbsp;&nbsp; {{ items.Product_Title }}</strong></span></p>
-        <!-- <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px">Memory: 32GB</p>
-        <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px">Color: Space Gray</p>
-        <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px">New iSight 12-megapixel camera</p></td> -->
-        </tr>
-        <tr style="border-collapse:collapse">
-        <td align="left" style="padding:0;Margin:0;padding-top:20px">
-            <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#333333;font-size:14px"><span style="font-size:15px"><strong style="line-height:150%">Price:</strong> {{ items.Product_Price|currency }}</span></p>
-        </td>
-        </tr>
-        </table></td>
-        </tr>
+    <table class="table border">
+        <!-- <thead>
+          <tr>
+   
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+          </tr>
+          </thead> -->
+            <tr>
+              {% for items in pr %}
+              <td style="font-size: 13px;"><strong>{{ forloop.counter }}. </strong> {{items.Product_Title}} &emsp;&nbsp;&nbsp;</td>
+              {% endfor %}
+            </tr>
+              <tr>
+                {% for items in qty %}
+                <td style="font-size: 13px;"> <strong>Qty: </strong>{{ items }}</td>
+                {% endfor %}
+              </tr>
+              <hr>
+              <tr>
+                {% for items in pr %}
+                <td style="font-size: 13px;"><strong>Price: </strong>{{items.Product_Price}}</td>
+                {% endfor %}
+              </tr>
+          </tbody>
 
     </table>
+    <hr>
+    <p style="text-align: right;"><strong> <u> Total:${{ total }}</strong></u></p>
     <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]-->
-    <table class="es-right" cellspacing="0" cellpadding="0" align="right" style=" mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right">
-    
-    </table>
     <!--[if mso]></td></tr></table><![endif]-->
     </tr>
-    {% endfor %}
     </div>
 
     
     <tr style="border-collapse:collapse">
-    <td style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;background-color:#f8f8f8" bgcolor="#f8f8f8" align="left">
-    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-    <tr style="border-collapse:collapse">
-    <td valign="top" align="center" style="padding:0;Margin:0;width:580px">
-    <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-    <tr style="border-collapse:collapse">
-    <td bgcolor="#f8f8f8" align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px;font-size:0">
-    <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-    <tr style="border-collapse:collapse">
-    <td style="padding:0;Margin:0;border-bottom:1px solid #191919;background:#FFFFFF none repeat scroll 0% 0%;height:1px;width:100%;margin:0px"></td>
-    </tr>
-    </table></td>
-    </tr>
-    <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0;padding-bottom:15px">
-    <table class="cke_show_border" height="101" cellspacing="1" cellpadding="1" border="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:240px">
-        <tr style="border-collapse:collapse">
-            <td style="padding:0;Margin:0"><strong>Subtotal:</strong></td>
-            <td style="padding:0;Margin:0;text-align:right">${{ total }}</td>
-    </tr>
-    <!-- <tr style="border-collapse:collapse">
-    <td style="padding:0;Margin:0"><strong>Shipping:</strong></td>
-    <td style="padding:0;Margin:0;text-align:right">$4.98</td>
-    </tr>
-    <tr style="border-collapse:collapse">
-    <td style="padding:0;Margin:0"><strong>Sales Tax:</strong></td>
-    <td style="padding:0;Margin:0;text-align:right">$1.00</td>
-    </tr> -->
-    <tr style="border-collapse:collapse">
-        <td style="padding:0;Margin:0"><span style="font-size:18px;line-height:36px"><strong>Order Total:</strong></span></td>
-        <td style="padding:0;Margin:0;text-align:right"><span style="font-size:18px;line-height:36px"><strong>${{ total }}</strong></span></td>
-    </tr>
-    </table></td>
-    </tr>
-    </table></td>
-    </tr>
-    </table></td>
+    <td style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;background-color:#f8f8f8" bgcolor="#f8f8f8" align="left"></td>
     </tr>
     <tr style="border-collapse:collapse">
     <td style="Margin:0;padding-bottom:10px;padding-left:10px;padding-right:10px;padding-top:15px;background-color:#eeeeee" bgcolor="#eeeeee" align="left">
-    </tr>
-    <tr style="border-collapse:collapse">
-    <td style="Margin:0;padding-top:10px;padding-left:20px;padding-right:20px;padding-bottom:30px;background-color:#eeeeee" bgcolor="#eeeeee" align="left">
-    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]-->
-    <!--[if mso]></td></tr></table><![endif]--></td>
     </tr>
     <tr style="border-collapse:collapse">
     <td style="Margin:0;padding-left:20px;padding-right:20px;padding-top:25px;padding-bottom:30px;background-color:#f8f8f8" bgcolor="#f8f8f8" align="left">
@@ -223,7 +188,7 @@
     <td align="center" style="padding:0;Margin:0;padding-bottom:10px"><h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:Arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#242424">Our guarantee</h3></td>
     </tr>
     <tr style="border-collapse:collapse">
-    <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">Your satisfaction is 100% guaranteed.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">See our <a target="_blank" href="https://viewstripo.email/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;text-decoration:none;color:#3CA7F1;font-size:14px">Returns and Exchanges policy.</a></p></td>
+    <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px">Your satisfaction is 100% guaranteed.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:Arial, sans-serif;line-height:21px;color:#242424;font-size:14px"></p></td>
     </tr>
     </table></td>
     </tr>

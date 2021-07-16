@@ -17,6 +17,8 @@ from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, Template, RequestContext, context
 from io import BytesIO
+from datetime import datetime
+x = datetime.now
 # Create your views here.
 
 def insert(request):
@@ -182,6 +184,7 @@ def orders(request):
         return render(request, 'orders.html', context)
 
 def checkout(request):
+    wi = Website_Info.objects.all()
     if request.method == 'POST':
         ab = request.session['cart']
         Orders.objects.create()
@@ -203,6 +206,7 @@ def checkout(request):
         amount = 0
         tempamount = 0
         total = 0
+        quantity = []
         # print(products)
         for items in products:
             Order_Request.objects.create(Order_ID = max_val,
@@ -223,13 +227,43 @@ def checkout(request):
             amount += tempamount
             quantity = cart.get(str(items.Product_ID))
         total = amount
-        # context = {'pr':products, 'total': total}
-        # msg_plain = render_to_string('email.txt')
-        # msg_html = render_to_string('email.html',context)
-        # recipient = (request.session.get('email'))
-        # send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
-        #             [recipient], html_message = msg_html)
+        context = {'pr':products, 'total': total}
+        msg_plain = render_to_string('email.txt')
+        msg_html = render_to_string('email.html',context)
+        recipient = (request.session.get('email'))
+        send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
+                    [recipient], html_message = msg_html)
 
+
+        user = request.session.get('user')
+        # print(user)
+        # orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
+        # orders = orders.reverse()
+        # print(orders)
+        cart = request.session.get('cart')
+        ids = list(request.session.get('cart').keys())
+        products = Product_Details.objects.filter(Product_ID__in = ids)
+        amount = 0
+        tempamount = 0
+        total = 0
+        quantity = []
+        for items in products:
+            tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+            amount += tempamount
+            quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
+        total = amount
+        data = {'pr': products, 'wi':wi, 'total': total, 'qty': quantity, 'time': x}
+        template = get_template("invoice.html")
+        data_p = template.render(data)
+        response = BytesIO()
+        pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")),response)
+        if not pdfPage.err:
+            return HttpResponse(response.getvalue(), content_type = "application/pdf")
+        else:
+            return HttpResponse("Error")
+        
+        request.session['cart'] = {}
+            
 
             
             # context = {
@@ -280,7 +314,7 @@ def checkout(request):
         #     )
         #     # print(order)
         #     order.save()
-        request.session['cart'] = {}
+        
     # message = 'Product: '+str(products) + 'Price:'+ str(products.Product_Price)
     # subject = 'Code Band'
     # message = str(products)
@@ -558,7 +592,7 @@ def login(request):
         # print(email)
         return render(request, 'login.html', data)
 
-def logout(request):
+def logout(request):    
     request.session.clear()
     request.session['cart'] = {}
     return redirect('login')
@@ -592,7 +626,7 @@ def create_invoice(request):
     amount = 0
     tempamount = 0
     total = 0
-    qty = 0
+    quantity = []
     cart = request.session.get('cart')
     wi = Website_Info.objects.all()
     ids = list(request.session.get('cart').keys())  
@@ -600,6 +634,7 @@ def create_invoice(request):
     for items in products:
         tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
         amount += tempamount
+        quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
     total = amount
     if request.method == 'GET':
         user = request.session.get('user')
@@ -607,7 +642,7 @@ def create_invoice(request):
         # orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
         # orders = orders.reverse()
         # print(orders)
-        data = {'pr': products, 'wi':wi, 'total': total}
+        data = {'pr': products, 'wi':wi, 'total': total, 'qty': quantity, 'time': x}
         template = get_template("invoice.html")
         data_p = template.render(data)
         response = BytesIO()
@@ -665,6 +700,7 @@ def ordemail(request):
     amount = 0
     tempamount = 0
     total = 0
+    quantity = []
     cart = request.session.get('cart')
     wi = Website_Info.objects.all()
     ids = list(request.session.get('cart').keys())  
@@ -672,10 +708,12 @@ def ordemail(request):
     for items in products:
         tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
         amount += tempamount
+        quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
     total = amount
     context = {
         'pr':products,
         'total': total,
+        'qty': quantity,
     }
     return render(request, 'email.html', context)
 
@@ -683,7 +721,7 @@ def invoice(request):
     amount = 0
     tempamount = 0
     total = 0
-    quantity = 0
+    quantity =[]
     cart = request.session.get('cart')
     wi = Website_Info.objects.all()
     ids = list(request.session.get('cart').keys())  
@@ -691,14 +729,19 @@ def invoice(request):
     for items in products:
         tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
         amount += tempamount
-        quantity = cart.get(str(items.Product_ID))
+        quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
     total = amount
-    print(request.session['cart'])
+    # for items in quantity:
+    #     print(items)
+    # res = quantity
+    # list(map(lambda x:x, res))
+    # print(res)
     if request.method == 'GET':
         user = request.session.get('user')
         # print(user)
         orders = Order_Request.objects.filter(Customer= user).order_by('-Date')
         total = amount
+        
         # orders = orders.reverse()
         # print(orders)
         context = {
@@ -706,6 +749,8 @@ def invoice(request):
             'orders': orders,
             'pr': products,
             'wi':wi,
+            'qty': quantity,
+            'time': x
         }
     return render(request, 'invoice.html',context)
 

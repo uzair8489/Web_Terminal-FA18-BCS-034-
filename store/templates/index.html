@@ -104,10 +104,10 @@
                             <div class="popular-img">
                                 <img src="{{ items.Product_Image1.url }}" alt="">
                                 <div class="img-cap">
-                                    <span><a href="{% url 'p_details' items.Product_ID %}">Add to cart</a></span>
+                                    <span><a href="{% url 'p_details' items.Product_ID %}">Quick View</a></span>
                                 </div>
                                 <div class="favorit-items">
-                                    <span class="flaticon-heart"></span>
+                                    <!-- <span class="flaticon-heart"></span> -->
                                 </div>
                             </div>
                             <div class="popular-caption">
@@ -161,7 +161,7 @@
                         <div class="watch-details mb-40">
                             <h2>{{ items.Product_Title }}</h2>
                             <p>{{ items.Product_Description }}</p>
-                            <a href="shop.html" class="btn">Show Watches</a>
+                            <a href="{% url 'shop' %}" class="btn">Show Watches</a>
                         </div>
                     </div>
                 </div>

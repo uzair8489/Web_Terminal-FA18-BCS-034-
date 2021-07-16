@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/userprofile.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/dropdown.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/sidebyside.css.css' %}">
+
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <title>Document</title>
@@ -42,50 +44,63 @@
     </style>
 </head>
 <body>
+  <span style="font-size: 18px;">Time </span><span style="text-align: center; color: red; font-size: 20px;">Zone</span> 
     <table>
         {% for items in wi %}
         <tr>
             <td><strong>Address:</strong>{{ items.Address }}</td>
-            <td><strong>Phone:</strong> {{ items.Contact }}</td>
+            <td style="text-align: center;"><strong>Phone:</strong> {{ items.Contact }}</td>
         </tr>
         <tr>
             <td><strong>City:</strong>{{ items.City }}</td>
-            <td><strong>Email:</strong>{{ items.Email }}</td>
+            <td style="text-align: center;"><strong>Email:</strong>{{ items.Email }}</td>
         </tr>
         <tr>
             <td><strong>Zipcode:</strong>{{ items.Zip_Code }}</td>
-            <td><strong>Website:</strong>{{ items.Website }}</td>
+            <td style="text-align: center;"><strong>Website:</strong>{{ items.Website }}</td>
+        </tr>
+        <tr>
+          <td style="text-align: right;"><strong>Order Date: </strong>{{ time }}</td>
         </tr>
         {% endfor %}
 </table>
     
-    <p  style="text-align: center;">Order Details</p>
+    <p  style="text-align: center; background-color: black; color: white;">Order Details</p>
     <table class="table border">
-        <thead>
+        <!-- <thead>
           <tr>
    
               <th>Product</th>
               <th>Price</th>
               <th>Quantity</th>
           </tr>
-          </thead>
+          </thead> -->
           <tbody>
-          {% for items in pr %}
-           <tr class="tr border">
-   
-              <td>{{items.Product_Title}}</td>
-              <td>{{items.Product_Price}}</td>
-              <td>{{ value }}</td>
-              
-          </tr>
-          {% endfor %}
+            <tr>
+              {% for items in pr %}
+              <td><strong>{{ forloop.counter }}. </strong>{{items.Product_Title}}</td>
+              {% endfor %}
+            </tr>
+              <tr>
+                {% for items in qty %}
+                <td> <strong>Qty: </strong>{{ items }}</td>
+                {% endfor %}
+              </tr>
+              <hr>
+              <tr>
+                {% for items in pr %}
+                <td><strong>Price: </strong>{{items.Product_Price}}</td>
+                {% endfor %}
+              </tr>
           </tbody>
-  
+          
     </table>
   
       <hr>
-  
-      <p><strong>Total:{{ total }}</strong></p>
-
+      <p style="text-align: right;"><strong> <u> Total:{{ total }}</strong></u></p>
+      <p> <strong>Printout Date: </strong>{{ time }}</p>
+      
 </body>
 </html>
+
+
