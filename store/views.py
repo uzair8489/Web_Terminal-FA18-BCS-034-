@@ -355,6 +355,8 @@ def product_details(request):
     return render(request, 'product_details.html' )
 
 def shop(request):
+    ids = list(request.session.get('cart').keys())  
+    products = Product_Details.objects.filter(Product_ID__in = ids)
     product_details = Product_Details.objects.all()
     web_info = Website_Info.objects.all()
     product_category = Product_Category.objects.all()
