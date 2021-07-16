@@ -488,7 +488,7 @@ def signup(request):
             error_message = 'Password does not match'
 
         if len(contact) < 11:
-            error_message = 'Phone number should not be 11 digits long'
+            error_message = 'Phone number should be 11 digits long'
         
         if signup.isexist():
             error_message = 'Email Address Already Exists'
