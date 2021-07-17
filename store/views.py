@@ -542,6 +542,9 @@ def signup(request):
         if len(contact)> 11:
             error_message = 'Phone number must not be greater than 11 digits'
 
+        if len(pass1) < 6:
+            error_message = 'Password must be 6 characters long'
+
         if signup.isexist():
             error_message = 'Email Address Already Exists'
 

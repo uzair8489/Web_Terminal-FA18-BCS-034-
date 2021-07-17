@@ -134,9 +134,13 @@
                                       <hr>
                                       <!-- <div class="dropdown-divider"></div> -->
                                       <div style="text-align: center;">
+                                        {% if request.session.cart %}
                                         <a style="margin-top: -10px;padding: 20px;color: white;" href="{% url 'check' %}" class="btn">checkout</a>
+                                        {% else %}
+                                        <h6>Empty Cart</h6>
                                         <br>
                                         <a style="margin-top: -22px;padding: 20px;color: white;" href="{% url 'cart' %}" class="btn">Go To Cart</a>
+                                        {% endif %}
                                       </div>
                                     </div>
                                   </div>

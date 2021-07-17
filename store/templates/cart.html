@@ -23,6 +23,7 @@
           </div>
       </div>
       <!--================Cart Area =================-->
+      {% if request.session.cart %}
       <section class="cart_area section_padding">
         <div class="container">
           <div class="cart_inner">
@@ -129,7 +130,20 @@
 </div> -->
 
       </section>
-
+      {% else %}
+      <center>
+        <br><br><br>
+        <h1>
+          Your Cart Is Empty
+        </h1>
+      </center>
+      <div class="m-3 p-3" style="text-align: center;">
+        <button style="background: none; border: none;">
+          <a href="{% url 'shop' %}" class="btn btn-primary float-left">back to shopping</a>
+        </button>
+        <!-- <a href="#" data-toggle = "modal" data-target = "#exampleModal" class="btn btn-primary float-right">Proceed to Checkout</a> -->
+      </div>
+      {% endif %}
       <!--================End Cart Area =================-->
   </main>
   
