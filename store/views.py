@@ -229,22 +229,22 @@ def checkout(request):
             quantity = cart.get(str(items.Product_ID))
         total = amount
 
-        # amount = 0
-        # tempamount = 0
-        # total = 0
-        # quantity = []
-        # for items in products:
-        #     tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
-        #     amount += tempamount
-        #     quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
-        # total = amount
+        amount = 0
+        tempamount = 0
+        total = 0
+        quantity = []
+        for items in products:
+            tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+            amount += tempamount
+            quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
+        total = amount
 
-        # context = {'pr':products, 'total': total, 'qty': quantity}
-        # msg_plain = render_to_string('email.txt')
-        # msg_html = render_to_string('email.html',context)
-        # recipient = (request.session.get('email'))
-        # send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
-        #             [recipient], html_message = msg_html)
+        context = {'pr':products, 'total': total, 'qty': quantity}
+        msg_plain = render_to_string('email.txt')
+        msg_html = render_to_string('email.html',context)
+        recipient = (request.session.get('email'))
+        send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
+                    [recipient], html_message = msg_html)
         # request.session['cart'] = {}
 
         user = request.session.get('user')
