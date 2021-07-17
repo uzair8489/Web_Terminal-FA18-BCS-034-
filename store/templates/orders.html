@@ -70,11 +70,13 @@
                       <h5>{{ items.Quantity|multiply:items.Price|currency }}</h5>
                     </td>
                     <td>
-                     {% if items.Delivered %}
+                        {% if items.Delivered %}
                      <small class="badge badge-success" >Completed</small>
                      {% else %}
                      <small class="badge badge-warning" >Pending</small>
                      {% endif %}
+
+                  
                     </td>
                   </tr>
                   {% endfor %}
@@ -88,3 +90,5 @@
 <h6>{{ items.Product }}</h6>
 {% endfor %} -->
 {% endblock %}
+
+

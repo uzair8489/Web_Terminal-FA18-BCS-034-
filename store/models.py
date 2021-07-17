@@ -102,6 +102,7 @@ class Order_Request(models.Model):
     District = models.CharField(max_length=50)
     Zip_Code = models.CharField(max_length=50)
     Date = models.DateField(default = datetime.datetime.today)
+    Delivered = models.BooleanField(default = False)
 
 
     def __str__(self):

@@ -175,8 +175,9 @@ def orders(request):
         user = request.session.get('user')
         # print(user)
         orders = Order_Request.objects.filter(Customer= user).order_by('-Date')
+        # print(deliverd.Delivered)
         # orders = orders.reverse()
-        # print(orders)
+        # print(deliverd)
         context = {
             'orders': orders,
             'pr': products,
@@ -559,6 +560,7 @@ def signup(request):
             return render(request, 'signup.html', data)
 
 def login(request):
+    wi = Website_Info.objects.all()
     ids = list(request.session.get('cart').keys())
     
     # print(ids)
@@ -597,14 +599,16 @@ def login(request):
                 data = {
                     'values': value,
                     'error': error_message,
-                    'pr': products
+                    'pr': products,
+                    'wi': wi
                 }
         else:
             error_message = 'User does not exists'
             data = {
                 'values': value,
                 'error': error_message,
-                'pr': products
+                'pr': products,
+                'wi': wi
             }
         # print(email)
         return render(request, 'login.html', data)
@@ -708,10 +712,12 @@ def userprofile(request, pk):
     return render(request, 'userprofile.html', context)
 
 def check(request):
+    wi = Website_Info.objects.all()
     ids = list(request.session.get('cart').keys())
     products = Product_Details.objects.filter(Product_ID__in = ids)
 
     context = {
+        'wi': wi,
         'pr':products,
     }
     return render(request, 'checkout.html', context)
@@ -775,6 +781,7 @@ def invoice(request):
     return render(request, 'invoice.html',context)
 
 def change_password(request, pk):
+    wi = Website_Info.objects.all()
     userid = User_Details.objects.get(User_ID = pk)
     ids = list(request.session.get('cart').keys())  
     products = Product_Details.objects.filter(Product_ID__in = ids)
@@ -792,16 +799,23 @@ def change_password(request, pk):
             'currentpass' : currentpass,
             'pass1' : pass1,
             'pass2' : pass1,
+            'wi': wi,
         }
 
 
         error_message = None
-        # uspass = User_Details.objects.get(Password = currentpass)
-        # # print(uspass.Password)
+        uspass = User_Details.objects.get(User_ID = pk )
+        # print(uspass)
+        print(uspass)
         
-        # if uspass.Password == currentpass:
-        if pass1 != pass2:
-            error_message = 'New password does not match'
+        if not uspass.Password == currentpass:
+            error_message = 'Old Password Does not match'
+        else:
+            # print(uspass.Password)
+            if pass1 != pass2:
+                error_message = 'New password does not match'
+        if len(pass1) < 6:
+            error_message = 'Password must be 6 characters long'
         if not error_message:
             userid.save()
             return redirect('userprofile', pk)
