@@ -33,7 +33,9 @@
       <div class="m-3 p-3">
         <a href="{% url 'shop' %}" class="btn btn-primary float-left">back to shopping</a>
         <!-- <a href="#" data-toggle = "modal" data-target = "#exampleModal" class="btn btn-primary float-right">Proceed to Checkout</a> -->
+        {% if request.session.cart %}
         <a href="{% url 'create_invoice' %}" class="btn btn-primary float-right">Print invoice</a>
+        {% endif %}
       </div>
     </div>
 
