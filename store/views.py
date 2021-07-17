@@ -227,22 +227,7 @@ def checkout(request):
             amount += tempamount
             quantity = cart.get(str(items.Product_ID))
         total = amount
-        context = {'pr':products, 'total': total}
-        msg_plain = render_to_string('email.txt')
-        msg_html = render_to_string('email.html',context)
-        recipient = (request.session.get('email'))
-        send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
-                    [recipient], html_message = msg_html)
 
-
-        user = request.session.get('user')
-        # print(user)
-        # orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
-        # orders = orders.reverse()
-        # print(orders)
-        cart = request.session.get('cart')
-        ids = list(request.session.get('cart').keys())
-        products = Product_Details.objects.filter(Product_ID__in = ids)
         amount = 0
         tempamount = 0
         total = 0
@@ -252,17 +237,46 @@ def checkout(request):
             amount += tempamount
             quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
         total = amount
-        data = {'pr': products, 'wi':wi, 'total': total, 'qty': quantity, 'time': x}
-        template = get_template("invoice.html")
-        data_p = template.render(data)
-        response = BytesIO()
-        pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")),response)
-        if not pdfPage.err:
-            return HttpResponse(response.getvalue(), content_type = "application/pdf")
-        else:
-            return HttpResponse("Error")
+
+        context = {'pr':products, 'total': total, 'qty': quantity}
+        msg_plain = render_to_string('email.txt')
+        msg_html = render_to_string('email.html',context)
+        recipient = (request.session.get('email'))
+        send_mail("Your order has been placed", msg_plain, settings.EMAIL_HOST_USER,
+                    [recipient], html_message = msg_html)
+        # request.session['cart'] = {}
+
+        user = request.session.get('user')
+        # print(user)
+        # orders = Order_Request.objects.filter(Customer = user).order_by('-Date')
+        # orders = orders.reverse()
+        # print(orders)
+
+
+        # cart = request.session.get('cart')
+        # ids = list(request.session.get('cart').keys())
+        # products = Product_Details.objects.filter(Product_ID__in = ids)
+        # amount = 0
+        # tempamount = 0
+        # total = 0
+        # quantity = []
+        # for items in products:
+        #     tempamount = (items.Product_Price * cart.get(str(items.Product_ID)))
+        #     amount += tempamount
+        #     quantity.insert(len(quantity),cart.get(str(items.Product_ID)))
+        # total = amount
+        # data = {'pr': products, 'wi':wi, 'total': total, 'qty': quantity, 'time': x}
+        # template = get_template("invoice.html")
+        # data_p = template.render(data)
+        # response = BytesIO()
+        # pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")),response)
+        # if not pdfPage.err:
+        #     return HttpResponse(response.getvalue(), content_type = "application/pdf")
+            
+        # else:
+        #     return HttpResponse("Error")
         
-        request.session['cart'] = {}
+        
             
 
             
@@ -327,7 +341,7 @@ def checkout(request):
     #     sender,
     #     [recipient]
     #     )
-    return redirect('check')
+    return redirect('confirmation')
 
 def confirmation(request):
     web_info = Website_Info.objects.all()
@@ -648,9 +662,12 @@ def create_invoice(request):
         response = BytesIO()
         pdfPage = pisa.pisaDocument(BytesIO(data_p.encode("UTF-8")),response)
         if not pdfPage.err:
+            request.session['cart'] ={}
             return HttpResponse(response.getvalue(), content_type = "application/pdf")
+            
         else:
             return HttpResponse("Error")
+    
         # response = HttpResponse(content_type = 'application/pdf')
         # response['Content-Dispositon'] = 'filename = "OrderInvoice.pdf"'
         # template = get_template(template_path)
